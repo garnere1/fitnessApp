@@ -6,6 +6,7 @@ const CustomInput = ({value, setValue, placeholder, secureTextEntry}) => {
         <View style={styles.container}>
             <TextInput 
                 value={value}
+                textContentType={'oneTimeCode'}
                 onChangeText={setValue}
                 placeholder={placeholder} 
                 style={styles.input}
