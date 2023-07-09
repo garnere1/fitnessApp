@@ -1,16 +1,18 @@
 
 import React from 'react';
 import {SafeAreaView, StyleSheet, Text} from 'react-native';
-import SignInScreen from './src/screens/SignInScreen/SignInScreen';
-import SignUpScreen from './src/screens/SignUpScreen/SignUpScreen';
-import ConfirmEmailScreen from './src/screens/ConfirmEmailScreen';
-import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
-import NewPasswordScreen from './src/screens/NewPasswordScreen';
+import Navigation from './src/navigation';
+import { Amplify } from 'aws-amplify';
+import config from './src/aws-exports';
+import {withAuthenticator} from 'aws-amplify-react-native';
+
+
+Amplify.configure(config);
 
 const App = () => {
   return (
     <SafeAreaView style={styles.root}>
-      <NewPasswordScreen />
+      <Navigation />
     </SafeAreaView>
   );
 };
@@ -22,4 +24,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default withAuthenticator(App);

@@ -3,16 +3,18 @@ import { View, Text, StyleSheet, useWindowDimensions, ScrollView} from 'react-na
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
+import { useNavigation } from '@react-navigation/native';
 
 const NewPasswordScreen = () => {
     const [code, setCode] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const navigation = useNavigation();
 
     const onSubmitPressed = () => {
-        console.warn("Send");
+        navigation.navigate('Home');
     }
     const onSignInPress = () => {
-        console.warn('onSignUpPress');
+        navigation.navigate('SignIn');
     }
     return (
         <ScrollView>
