@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Alert} from 'react-native';
-import CustomInput from '../../components/CustomInput';
-import CustomButton from '../../components/CustomButton';
-import SocialSignInButtons from '../../components/SocialSignInButtons';
+import CustomInput from '../../../components/CustomInput';
+import CustomButton from '../../../components/CustomButton';
 import {useNavigation} from '@react-navigation/core';
 import {useForm} from 'react-hook-form';
 import {Auth} from 'aws-amplify';
@@ -128,7 +127,6 @@ const SignUpScreen = () => {
           </Text>
         </Text>
 
-        <SocialSignInButtons />
 
         <CustomButton
           text="Have an account? Sign in"

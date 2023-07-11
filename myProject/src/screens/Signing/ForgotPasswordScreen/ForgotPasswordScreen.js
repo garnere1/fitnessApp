@@ -1,21 +1,19 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Alert} from 'react-native';
-import CustomInput from '../../components/CustomInput';
-import CustomButton from '../../components/CustomButton';
-import SocialSignInButtons from '../../components/SocialSignInButtons';
-import {useNavigation} from '@react-navigation/native';
+import CustomInput from '../../../components/CustomInput';
+import CustomButton from '../../../components/CustomButton';
+import {useNavigation} from '@react-navigation/core';
 import {useForm} from 'react-hook-form';
 import {Auth} from 'aws-amplify';
 
-const NewPasswordScreen = () => {
+const ForgotPasswordScreen = () => {
   const {control, handleSubmit} = useForm();
-
   const navigation = useNavigation();
 
-  const onSubmitPressed = async data => {
+  const onSendPressed = async data => {
     try {
-      await Auth.forgotPasswordSubmit(data.username, data.code, data.password);
-      navigation.navigate('SignIn');
+      await Auth.forgotPassword(data.username);
+      navigation.navigate('NewPassword');
     } catch (e) {
       Alert.alert('Oops', e.message);
     }
@@ -31,34 +29,15 @@ const NewPasswordScreen = () => {
         <Text style={styles.title}>Reset your password</Text>
 
         <CustomInput
-          placeholder="Username"
           name="username"
           control={control}
-          rules={{required: 'Username is required'}}
-        />
-
-        <CustomInput
-          placeholder="Code"
-          name="code"
-          control={control}
-          rules={{required: 'Code is required'}}
-        />
-
-        <CustomInput
-          placeholder="Enter your new password"
-          name="password"
-          control={control}
-          secureTextEntry
+          placeholder="Username"
           rules={{
-            required: 'Password is required',
-            minLength: {
-              value: 8,
-              message: 'Password should be at least 8 characters long',
-            },
+            required: 'Username is required',
           }}
         />
 
-        <CustomButton text="Submit" onPress={handleSubmit(onSubmitPressed)} />
+        <CustomButton text="Send" onPress={handleSubmit(onSendPressed)} />
 
         <CustomButton
           text="Back to Sign in"
@@ -90,4 +69,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewPasswordScreen;
+export default ForgotPasswordScreen;

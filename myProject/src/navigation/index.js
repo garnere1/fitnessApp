@@ -3,12 +3,12 @@ import {View, ActivityIndicator} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import SignInScreen from '../screens/SignInScreen';
-import SignUpScreen from '../screens/SignUpScreen';
-import ConfirmEmailScreen from '../screens/ConfirmEmailScreen';
-import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
-import NewPasswordScreen from '../screens/NewPasswordScreen';
-import HomeScreen from '../screens/HomeScreen';
+import SignInScreen from '../screens/Signing/SignInScreen';
+import SignUpScreen from '../screens/Signing/SignUpScreen';
+import ConfirmEmailScreen from '../screens/Signing/ConfirmEmailScreen';
+import ForgotPasswordScreen from '../screens/Signing/ForgotPasswordScreen';
+import NewPasswordScreen from '../screens/Signing/NewPasswordScreen';
+import TabNavigation from '../screens/Tabs/TabNavigation';
 import {Auth, Hub} from 'aws-amplify';
 
 const Stack = createNativeStackNavigator();
@@ -52,7 +52,7 @@ const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {user ? (
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="TabNavigation" component={TabNavigation} />
         ) : (
           <>
             <Stack.Screen name="SignIn" component={SignInScreen} />

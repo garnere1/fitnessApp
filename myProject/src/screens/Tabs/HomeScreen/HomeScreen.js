@@ -9,7 +9,6 @@ const HomeScreen = () => {
 
   return (
     <View style={{flex: 1}}>
-      <Text style={{fontSize: 24, alignSelf: 'center'}}>Home, sweet home</Text>
       <Text
         onPress={signOut}
         style={{

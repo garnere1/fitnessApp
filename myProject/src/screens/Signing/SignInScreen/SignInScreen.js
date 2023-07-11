@@ -1,18 +1,15 @@
 import React, {useState} from 'react';
 import {
   View,
-  Text,
   Image,
   StyleSheet,
   useWindowDimensions,
   ScrollView,
-  TextInput,
   Alert,
 } from 'react-native';
-import Logo from '../../../assets/images/Logo_1.png';
-import CustomInput from '../../components/CustomInput';
-import CustomButton from '../../components/CustomButton';
-import SocialSignInButtons from '../../components/SocialSignInButtons';
+import Logo from '../../../../assets/images/Logo_1.png';
+import CustomInput from '../../../components/CustomInput';
+import CustomButton from '../../../components/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {Auth} from 'aws-amplify';
@@ -92,12 +89,10 @@ const SignInScreen = () => {
           type="TERTIARY"
         />
 
-        <SocialSignInButtons />
-
         <CustomButton
           text="Don't have an account? Create one"
           onPress={onSignUpPress}
-          type="TERTIARY"
+          type="SECONDARY"
         />
       </View>
     </ScrollView>
