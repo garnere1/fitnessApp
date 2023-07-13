@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, View, TextInput, Button, Keyboard, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Keyboard, Alert } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { createTodo, updateTodo, deleteTodo } from '../../../graphql/mutations';
@@ -80,6 +80,7 @@ const InputScreen = () => {
   }
   return (
     <View style={styles.container}>
+        <Text>Add a lift</Text>
       <DropDownPicker
         open={open}
         value={value}
