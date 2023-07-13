@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, View, TextInput, Button, Keyboard, Alert } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { API, graphqlOperation } from 'aws-amplify';
+import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { createTodo, updateTodo, deleteTodo } from '../../../graphql/mutations';
-
-const todo = { name: "My first todo", description: "Hello world!" };
+import * as queries from '../../../graphql/queries';
 
 const InputScreen = () => {
   const [open, setOpen] = useState(false);
@@ -15,10 +14,10 @@ const InputScreen = () => {
     {label: 'Deadlift', value: 'deadlift'}
   ]);
 
-  const [number, setNumber] = React.useState('');
+  const [weight, setWeight] = React.useState('');
   const [reps, setReps] = React.useState('');
 
-  const onChanged = (text) => {
+  const onChanged = (text, cond) => {
       let newText = '';
       let numbers = '0123456789';
   
@@ -27,31 +26,22 @@ const InputScreen = () => {
               newText = newText + text[i];
           }
           else {
-              alert("please enter numbers only");
+              alert("Please enter numbers only");
           }
       }
-      setNumber(newText);
+      if(cond == 'weight') {
+        setWeight(newText);
+      }
+      else {
+        setReps(newText);
+      }
   }
-  const onChanged1 = (text) => {
-    let newText = '';
-    let numbers = '0123456789';
-
-    for (var i=0; i < text.length; i++) {
-        if(numbers.indexOf(text[i]) > -1 ) {
-            newText = newText + text[i];
-        }
-        else {
-            alert("please enter numbers only");
-        }
-    }
-    setReps(newText);
-}
 
   const onPress = async () => {
-      if (number.length !== 0) {
+      if (weight.length !== 0) {
           Alert.alert(
-              "Confirm Number",
-              number,
+              "Confirm Weight: " + weight + 
+              "\nConfirm Reps: " + reps,
               [
                   {
                       text: "Cancel",
@@ -64,15 +54,27 @@ const InputScreen = () => {
                   },
               ],
           );
-          setNumber('');
+          setWeight('');
           setReps('');
           try {
-            const response = await API.graphql(graphqlOperation(createTodo, {input: todo}));
+                const user = await Auth.currentAuthenticatedUser();
+                const response = await API.graphql({
+                    query: createTodo,
+                    variables: {
+                        input: {
+                        "name": value,
+                        "weight": weight,
+                        "reps": reps,
+                        "userId": user.attributes.sub,
+                        "userName": user.username,
+                    }
+                    }
+                });
             console.log('Response :\n');
             console.log(response);
-          } catch (e) {
+            } catch (e) {
             console.log(e.message);
-          }          
+            }  
           Keyboard.dismiss();
       }
   }
@@ -88,15 +90,15 @@ const InputScreen = () => {
       />
       <TextInput
           keyboardType='numeric'
-          onChangeText={text => onChanged(text)}
-          value={number}
+          onChangeText={text => onChanged(text, 'weight')}
+          value={weight}
           style={styles.input}
           placeholder='Weight'
           maxLength={10}
       />
       <TextInput
           keyboardType='numeric'
-          onChangeText={text1 => onChanged1(text1)}
+          onChangeText={text => onChanged(text, 'reps')}
           value={reps}
           style={styles.input}
           placeholder='Reps'
