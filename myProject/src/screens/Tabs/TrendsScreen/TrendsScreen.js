@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, View, TextInput, Button, Keyboard, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Keyboard, Alert } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { createTodo, updateTodo, deleteTodo } from '../../../graphql/mutations';
@@ -15,30 +15,24 @@ const TrendsScreen = () => {
     {label: 'Bench', value: 'bench'},
     {label: 'Deadlift', value: 'deadlift'}
   ]);
+  const [show, setShow] = useState(false);
+  const [li, setLi] = useState(false);
+
   const onPress = async (value) => {
     try {
-      const allTodos = await API.graphql({ query: queries.listTodos });
-      const toDoList = allTodos.data.listTodos.items;
-      let iterator = toDoList.values();
-      for (let elements of iterator) {
-        if(value == 'squat' && elements.name == 'squat') {
-          console.log('Squat')
-          console.log('Weight: ' + elements.weight);
-          console.log('Reps: ' + elements.reps);
-        }
-        else if(value == 'bench' && elements.name == 'bench') {
-          console.log('Bench')
-          console.log('Weight: ' + elements.weight);
-          console.log('Reps: ' + elements.reps);
-        }
-        else if(value == 'deadlift' && elements.name == 'deadlift') {
-          console.log('Deadlift')
-          console.log('Weight: ' + elements.weight);
-          console.log('Reps: ' + elements.reps);
-        }
-    }
+        const variables = {
+          filter: {
+            name: {
+              eq: value
+            }
+          }
+        };
+        const allTodos = await API.graphql({ query: queries.listTodos, variables: variables });
+        const toDoList = allTodos.data.listTodos.items;
+        setLi(toDoList);
+        setShow(true);
      } catch (e) {
-    console.log(e.message);
+      console.log(e.message);
     }  
 }
   return (
@@ -55,6 +49,9 @@ const TrendsScreen = () => {
           title='Submit'
           onPress={() => onPress(value)}
       />
+      {show && (
+        li.map((b, i) => <Text key={i}>{"Weight: " + b.weight + " Reps: " + b.reps}</Text>)
+      )}
     </View>
   );
 };
@@ -66,7 +63,6 @@ const styles = StyleSheet.create({
       flex:1,
       justifyContent:'center',
       alignItems:'center',
-      marginBottom: 400,
       
   },
   input: {

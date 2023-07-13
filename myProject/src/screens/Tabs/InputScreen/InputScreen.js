@@ -4,6 +4,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { createTodo, updateTodo, deleteTodo } from '../../../graphql/mutations';
 import * as queries from '../../../graphql/queries';
+import DatePicker from 'react-native-date-picker';
 
 const InputScreen = () => {
   const [open, setOpen] = useState(false);
@@ -13,6 +14,8 @@ const InputScreen = () => {
     {label: 'Bench', value: 'bench'},
     {label: 'Deadlift', value: 'deadlift'}
   ]);
+  const [date, setDate] = useState(new Date());
+
 
   const [weight, setWeight] = React.useState('');
   const [reps, setReps] = React.useState('');
@@ -80,7 +83,7 @@ const InputScreen = () => {
   }
   return (
     <View style={styles.container}>
-        <Text>Add a lift</Text>
+    <Text>Add a lift</Text>
       <DropDownPicker
         open={open}
         value={value}
