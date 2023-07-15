@@ -101,6 +101,7 @@ const SignInScreen = () => {
 
 const styles = StyleSheet.create({
   root: {
+    flex: 1,
     alignItems: 'center',
     padding: 20,
   },

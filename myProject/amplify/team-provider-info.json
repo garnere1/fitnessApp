@@ -13,7 +13,13 @@
     },
     "categories": {
       "auth": {
-        "fitApp": {}
+        "fitApp": {},
+        "fitapp": {
+          "userPoolId": "us-east-2_kA3KO902w",
+          "userPoolName": "fitAppUsers",
+          "webClientId": "79qnbgd8lsvc3rfr8g6t5ola07",
+          "nativeClientId": "79qnbgd8lsvc3rfr8g6t5ola07"
+        }
       },
       "api": {
         "fitapp": {}

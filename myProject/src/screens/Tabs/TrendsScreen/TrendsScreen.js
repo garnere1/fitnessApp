@@ -19,11 +19,15 @@ const TrendsScreen = () => {
   const [li, setLi] = useState(false);
 
   const onPress = async (value) => {
+    const user = await Auth.currentAuthenticatedUser();
     try {
         const variables = {
           filter: {
             name: {
               eq: value
+            },
+            userName: {
+              eq: user.username
             }
           }
         };

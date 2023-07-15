@@ -20,7 +20,7 @@ const SignUpScreen = () => {
       await Auth.signUp({
         username,
         password,
-        attributes: {email, name, preferred_username: username},
+        attributes: {email, name},
       });
 
       navigation.navigate('ConfirmEmail', {username});
@@ -33,13 +33,6 @@ const SignUpScreen = () => {
     navigation.navigate('SignIn');
   };
 
-  const onTermsOfUsePressed = () => {
-    console.warn('onTermsOfUsePressed');
-  };
-
-  const onPrivacyPressed = () => {
-    console.warn('onPrivacyPressed');
-  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -115,18 +108,6 @@ const SignUpScreen = () => {
           text="Register"
           onPress={handleSubmit(onRegisterPressed)}
         />
-
-        <Text style={styles.text}>
-          By registering, you confirm that you accept our{' '}
-          <Text style={styles.link} onPress={onTermsOfUsePressed}>
-            Terms of Use
-          </Text>{' '}
-          and{' '}
-          <Text style={styles.link} onPress={onPrivacyPressed}>
-            Privacy Policy
-          </Text>
-        </Text>
-
 
         <CustomButton
           text="Have an account? Sign in"

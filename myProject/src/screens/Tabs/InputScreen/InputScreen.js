@@ -45,6 +45,7 @@ const InputScreen = () => {
           Alert.alert(
               "Confirm Weight: " + weight + 
               "\nConfirm Reps: " + reps,
+              "",
               [
                   {
                       text: "Cancel",
@@ -56,6 +57,7 @@ const InputScreen = () => {
                       onPress: () => console.log("OK Pressed"),
                   },
               ],
+              {cancelable: false},
           );
           setWeight('');
           setReps('');
