@@ -6,5 +6,8 @@ type Todo @model @auth(rules: [{allow: public}]) {
   reps: Float
   userId: String
   userName: String
+  day: Float
+	month: Float
+	year: Float
 }
  

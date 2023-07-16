@@ -26,8 +26,6 @@ export const listTodos = /* GraphQL */ `
         description
         createdAt
         updatedAt
-        weight
-        reps
         __typename
       }
       nextToken

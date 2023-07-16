@@ -6,6 +6,7 @@ import { createTodo, updateTodo, deleteTodo } from '../../../graphql/mutations';
 import * as queries from '../../../graphql/queries';
 import DatePicker from 'react-native-date-picker';
 
+
 const InputScreen = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -14,11 +15,13 @@ const InputScreen = () => {
     {label: 'Bench', value: 'bench'},
     {label: 'Deadlift', value: 'deadlift'}
   ]);
-  const [date, setDate] = useState(new Date());
 
 
   const [weight, setWeight] = React.useState('');
   const [reps, setReps] = React.useState('');
+  const [day, setDay] = React.useState('');
+  const [month, setMonth] = React.useState('');
+  const [year, setYear] = React.useState('');
 
   const onChanged = (text, cond) => {
       let newText = '';
@@ -35,13 +38,23 @@ const InputScreen = () => {
       if(cond == 'weight') {
         setWeight(newText);
       }
-      else {
+      else if(cond == 'reps'){
         setReps(newText);
+      }
+      else if(cond == 'day'){
+        setDay(newText);
+      }
+      else if(cond == 'month'){
+        setMonth(newText);
+      }
+      else {
+        setYear(newText);
       }
   }
 
   const onPress = async () => {
-      if (weight.length !== 0) {
+      if (weight.length !== 0 && reps.length !== 0 && day.length !== 0 
+        && month.length !== 0 && year.length !== 0) {
           Alert.alert(
               "Confirm Weight: " + weight + 
               "\nConfirm Reps: " + reps,
@@ -49,40 +62,61 @@ const InputScreen = () => {
               [
                   {
                       text: "Cancel",
-                      onPress: () => console.log("Cancel Pressed"),
+                      onPress: () => onCancelPress(),
                   },
 
                   { 
                       text: "OK", 
-                      onPress: () => console.log("OK Pressed"),
+                      onPress: () => onOkPress(),
                   },
               ],
               {cancelable: false},
           );
-          setWeight('');
-          setReps('');
-          try {
-                const user = await Auth.currentAuthenticatedUser();
-                const response = await API.graphql({
-                    query: createTodo,
-                    variables: {
-                        input: {
-                        "name": value,
-                        "weight": weight,
-                        "reps": reps,
-                        "userId": user.attributes.sub,
-                        "userName": user.username,
-                    }
-                    }
-                });
-            console.log('Response :\n');
-            console.log(response);
-            } catch (e) {
-            console.log(e.message);
-            }  
-          Keyboard.dismiss();
+      }
+      else {
+        Alert.alert("All fields are required")
       }
   }
+
+  const onCancelPress = () => {
+    setWeight('');
+    setReps('');
+    setDay('');
+    setMonth('');
+    setYear('');
+  }
+
+  const onOkPress = async() => {
+        setWeight('');
+        setReps('');
+        setDay('');
+        setMonth('');
+        setYear('');
+        try {
+            const user = await Auth.currentAuthenticatedUser();
+            const response = await API.graphql({
+                query: createTodo,
+                variables: {
+                    input: {
+                    "name": value,
+                    "weight": weight,
+                    "reps": reps,
+                    "userId": user.attributes.sub,
+                    "userName": user.username,
+                    "day": day,
+                    "month": month,
+                    "year": year,
+                }
+                }
+            });
+        console.log('Response :\n');
+        console.log(response);
+        } catch (e) {
+        console.log(e.message);
+        }  
+        Keyboard.dismiss();
+  }
+ 
   return (
     <View style={styles.container}>
     <Text>Add a lift</Text>
@@ -93,6 +127,30 @@ const InputScreen = () => {
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
+      />
+      <TextInput
+          keyboardType='numeric'
+          onChangeText={text => onChanged(text, 'day')}
+          value={day}
+          style={styles.input}
+          placeholder='Day'
+          maxLength={2}
+      />
+      <TextInput
+          keyboardType='numeric'
+          onChangeText={text => onChanged(text, 'month')}
+          value={month}
+          style={styles.input}
+          placeholder='Month'
+          maxLength={2}
+      />
+      <TextInput
+          keyboardType='numeric'
+          onChangeText={text => onChanged(text, 'year')}
+          value={year}
+          style={styles.input}
+          placeholder='Year'
+          maxLength={4}
       />
       <TextInput
           keyboardType='numeric'
