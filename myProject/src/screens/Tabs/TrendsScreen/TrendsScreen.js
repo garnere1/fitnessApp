@@ -24,13 +24,16 @@ const TrendsScreen = () => {
     {label: 'Deadlift', value: 'deadlift'}
   ]);
   const [show, setShow] = useState(false);
+  const [noGraph, setNoGraph] = useState(false);
   const [li, setLi] = useState(false);
   const [keys, setKeys] = useState(false);
   const [points, setPoints] = useState(false);
   const [nums, setNums] = useState([0]);
   const [dates, setDates] = useState([0]);
-
+  const [showText, setShowText] = useState(false);
+  
   const test = [];
+  const test2 = [];
 
   const onPress = async (value) => {
     const user = await Auth.currentAuthenticatedUser();
@@ -47,15 +50,25 @@ const TrendsScreen = () => {
         };
         const allTodos = await API.graphql({ query: queries.listTodos, variables: variables });
         const toDoList = allTodos.data.listTodos.items;
-        setLi(toDoList);
-        test.push(toDoList);
-        console.log(test);
-        const times = test.flatMap(innerArr => innerArr.map(obj => obj.createdAt.substring(5,10)));
-        const weights = test.flatMap(innerArr => innerArr.map(obj => obj.weight));
-        setShow(true);
-        setNums(weights.map(Number));
-        setDates(times);
-
+        if(toDoList.length != 0) {
+          setLi(toDoList);
+          test.push(toDoList);
+          const times = test.flatMap(innerArr => innerArr.map(obj => obj.createdAt.substring(5,10)));
+          const weights = test.flatMap(innerArr => innerArr.map(obj => obj.weight));
+          const reps = test.flatMap(innerArr => innerArr.map(obj => obj.reps));
+          arr1 = weights.map(Number)
+          arr2 = reps.map(Number)
+          const te = arr1.map(function(x,y){return ((x * (36/(37-arr2[y]))).toFixed(2))});
+          setShow(true);
+          setNoGraph(false);
+          setNums(te.map(Number));
+          setDates(times);
+        }
+        else {
+          setShow(false);
+          setNoGraph(true);
+        }
+      
      } catch (e) {
       console.log(e.message);
     }  
@@ -88,20 +101,27 @@ const TrendsScreen = () => {
           title='Submit'
           onPress={() => onPress(value)}
       />
-      {show && (
-        li.map((b, i) => <Text key={i}>{"Weight: " + b.weight + " Reps: " + b.reps}</Text>)
+      {noGraph && (
+        <Text>No data yet</Text>
       )}
       {show && (
         <LineChart
         data={data}
         width={Dimensions.get("window").width / 1.1}
         height={220}
-        yAxisSuffix="lb"
+        withInnerLines = "false"
+        withOuterLines = "false"
+        withVerticalLines = "false"
+        withHorizontalLines = "false"
+        onDataPointClick={({index})=>{
+
+          setShowText(true);
+        }} 
+        yAxisSuffix=" lbs"
         chartConfig={{
-          decimalPlaces: 2, 
-          backgroundColor: "#e26a00",
-          backgroundGradientFrom: "#ccd9ff",
-          backgroundGradientTo: "#ccd9ff",
+          decimalPlaces: 0, 
+          backgroundGradientFromOpacity: 0,
+          backgroundGradientToOpacity: 0,
           color: (opacity = 1) => `rgba(39, 73, 245, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(39, 73, 245, ${opacity})`,
           propsForDots: {
@@ -113,8 +133,13 @@ const TrendsScreen = () => {
         bezier
         style={{
           marginVertical: 8,
+          borderRadius: 5,
+
         }}
       />
+      )}
+      {showText && (
+        <Text>Hello</Text>
       )}
       
     </View>
