@@ -10,6 +10,8 @@ import ForgotPasswordScreen from '../screens/Signing/ForgotPasswordScreen';
 import NewPasswordScreen from '../screens/Signing/NewPasswordScreen';
 import TabNavigation from '../screens/Tabs/TabNavigation';
 import {Auth, Hub} from 'aws-amplify';
+import DeleteScreen from '../screens/Tabs/Actions/DeleteScreen';
+import InputScreen from '../screens/Tabs/Actions/InputScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,16 +54,17 @@ const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {user ? (
+          <>
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
+          <Stack.Screen name="DeleteScreen" component={DeleteScreen} />
+          <Stack.Screen name="InputScreen" component={InputScreen} />
+          </>
         ) : (
           <>
             <Stack.Screen name="SignIn" component={SignInScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} />
             <Stack.Screen name="ConfirmEmail" component={ConfirmEmailScreen} />
-            <Stack.Screen
-              name="ForgotPassword"
-              component={ForgotPasswordScreen}
-            />
+            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
             <Stack.Screen name="NewPassword" component={NewPasswordScreen} />
           </>
         )}

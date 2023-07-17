@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Keyboard, Alert } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Auth, API } from 'aws-amplify';
-import { createTodo, updateTodo, deleteTodo } from '../../../graphql/mutations';
+import { createTodo, updateTodo, deleteTodo } from '../../../../graphql/mutations';
 import DatePicker from 'react-native-date-picker'
-
+import {useNavigation} from '@react-navigation/native';
 
 
 const InputScreen = () => {
@@ -18,7 +18,12 @@ const InputScreen = () => {
   const [weight, setWeight] = React.useState('');
   const [reps, setReps] = React.useState('');
   const [inputDate, setInputDate] = React.useState('');
-    const [date, setDate] = useState(new Date())
+    const [date, setDate] = useState(new Date());
+    const navigation = useNavigation();
+
+    const onGoBackPress = () => {
+      navigation.navigate('TabNavigation');
+    }
 
 
   const onChanged = (text, cond) => {
@@ -54,10 +59,10 @@ const InputScreen = () => {
         setInputDate(date.toISOString().substring(0,10));
         
     if (weight.length !== 0 && reps.length !== 0) {
+          let max = (weight * (36/(37-reps))).toFixed(0);
           Alert.alert(
-              "Confirm Weight: " + weight + 
-              "\nConfirm Reps: " + reps,
-              "",
+              "Confirm: " + weight + " x " + reps,
+              "\n1 rep max: " + max,
               [
                   {
                       text: "Cancel",
@@ -118,7 +123,11 @@ const InputScreen = () => {
         itemSeparator={true}
         labelStyle = {styles.labelStyle}
       />
-      <DatePicker date={date} mode="date" onDateChange={setDate} />
+      <DatePicker date={date} 
+        mode="date" 
+        onDateChange={setDate} 
+        textColor="#002b80"
+      />
       <TextInput
           keyboardType='numeric'
           onChangeText={text => onChanged(text, 'weight')}
@@ -141,6 +150,10 @@ const InputScreen = () => {
               onPress={() => onPress()}
           />
       </View>
+      <Button 
+              title='Go back'
+              onPress={() => onGoBackPress()}
+          />
     </View>
 
   );
@@ -149,7 +162,6 @@ const InputScreen = () => {
 const styles = StyleSheet.create({
   container: {
       flex:1,
-      marginTop: 30,
       justifyContent:'center',
       alignItems:'center',
   },
@@ -160,7 +172,7 @@ const styles = StyleSheet.create({
         color: "#003366"
   },
   header: {
-    marginBottom: 30,
+    marginBottom: 10,
     fontSize: 20,
     color: '#003366',
   },
@@ -170,10 +182,9 @@ const styles = StyleSheet.create({
       borderColor:'#c7c3c3',
       padding:10,
       marginTop: 10,
-      marginBottom: 20,
+      marginBottom: 10,
   },
   buttonContainer: {
-      marginBottom: 150,
       width:'80%',
       borderWidth: 1,
   },
