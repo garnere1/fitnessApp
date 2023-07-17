@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Keyboard, Alert } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { Auth, API, graphqlOperation } from 'aws-amplify';
+import { Auth, API } from 'aws-amplify';
 import { createTodo, updateTodo, deleteTodo } from '../../../graphql/mutations';
-import * as queries from '../../../graphql/queries';
-import DatePicker from 'react-native-date-picker';
+import DatePicker from 'react-native-date-picker'
+
 
 
 const InputScreen = () => {
@@ -15,13 +15,11 @@ const InputScreen = () => {
     {label: 'Bench', value: 'bench'},
     {label: 'Deadlift', value: 'deadlift'}
   ]);
-
-
   const [weight, setWeight] = React.useState('');
   const [reps, setReps] = React.useState('');
-  const [day, setDay] = React.useState('');
-  const [month, setMonth] = React.useState('');
-  const [year, setYear] = React.useState('');
+  const [inputDate, setInputDate] = React.useState('');
+    const [date, setDate] = useState(new Date())
+
 
   const onChanged = (text, cond) => {
       let newText = '';
@@ -53,8 +51,9 @@ const InputScreen = () => {
   }
 
   const onPress = async () => {
-      if (weight.length !== 0 && reps.length !== 0 && day.length !== 0 
-        && month.length !== 0 && year.length !== 0) {
+        setInputDate(date.toISOString().substring(0,10));
+        
+    if (weight.length !== 0 && reps.length !== 0) {
           Alert.alert(
               "Confirm Weight: " + weight + 
               "\nConfirm Reps: " + reps,
@@ -62,7 +61,6 @@ const InputScreen = () => {
               [
                   {
                       text: "Cancel",
-                      onPress: () => onCancelPress(),
                   },
 
                   { 
@@ -71,27 +69,16 @@ const InputScreen = () => {
                   },
               ],
               {cancelable: false},
-          );
+          );   
       }
       else {
         Alert.alert("All fields are required")
       }
   }
 
-  const onCancelPress = () => {
-    setWeight('');
-    setReps('');
-    setDay('');
-    setMonth('');
-    setYear('');
-  }
-
   const onOkPress = async() => {
         setWeight('');
         setReps('');
-        setDay('');
-        setMonth('');
-        setYear('');
         try {
             const user = await Auth.currentAuthenticatedUser();
             const response = await API.graphql({
@@ -103,9 +90,8 @@ const InputScreen = () => {
                     "reps": reps,
                     "userId": user.attributes.sub,
                     "userName": user.username,
-                    "day": day,
-                    "month": month,
-                    "year": year,
+                    "inputDate": inputDate,
+                    "type": "general",
                 }
                 }
             });
@@ -119,39 +105,20 @@ const InputScreen = () => {
  
   return (
     <View style={styles.container}>
-    <Text>Add a lift</Text>
+    <Text style={styles.header}>Add a lift!</Text>
       <DropDownPicker
+        dropDownDirection='AUTO'
         open={open}
         value={value}
         items={items}
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
+        dropDownContainerStyle = {styles.dropDownContainerStyle}
+        itemSeparator={true}
+        labelStyle = {styles.labelStyle}
       />
-      <TextInput
-          keyboardType='numeric'
-          onChangeText={text => onChanged(text, 'day')}
-          value={day}
-          style={styles.input}
-          placeholder='Day'
-          maxLength={2}
-      />
-      <TextInput
-          keyboardType='numeric'
-          onChangeText={text => onChanged(text, 'month')}
-          value={month}
-          style={styles.input}
-          placeholder='Month'
-          maxLength={2}
-      />
-      <TextInput
-          keyboardType='numeric'
-          onChangeText={text => onChanged(text, 'year')}
-          value={year}
-          style={styles.input}
-          placeholder='Year'
-          maxLength={4}
-      />
+      <DatePicker date={date} mode="date" onDateChange={setDate} />
       <TextInput
           keyboardType='numeric'
           onChangeText={text => onChanged(text, 'weight')}
@@ -182,18 +149,33 @@ const InputScreen = () => {
 const styles = StyleSheet.create({
   container: {
       flex:1,
+      marginTop: 30,
       justifyContent:'center',
       alignItems:'center',
+  },
+  dropDownContainerStyle: {
+    backgroundColor: '#cce6ff',
+  },
+  labelStyle: {
+        color: "#003366"
+  },
+  header: {
+    marginBottom: 30,
+    fontSize: 20,
+    color: '#003366',
   },
   input: {
       borderWidth:1,
       width:'80%',
       borderColor:'#c7c3c3',
       padding:10,
+      marginTop: 10,
+      marginBottom: 20,
   },
   buttonContainer: {
-      marginBottom: 1,
+      marginBottom: 150,
       width:'80%',
+      borderWidth: 1,
   },
 })
 

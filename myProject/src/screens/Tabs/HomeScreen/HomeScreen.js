@@ -10,7 +10,7 @@ const HomeScreen = () => {
   return (
     <View style={{flex: 1}}>
       <Text>
-        Home page
+        Quick Statistics
       </Text>
     </View>
   );

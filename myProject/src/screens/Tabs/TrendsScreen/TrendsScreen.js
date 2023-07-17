@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Keyboard, Alert, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Keyboard, Alert, Dimensions, ActionSheetIOS } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { Auth, API, graphqlOperation } from 'aws-amplify';
+import { Auth, API, graphqlOperation, SortDirection } from 'aws-amplify';
 import { createTodo, updateTodo, deleteTodo } from '../../../graphql/mutations';
 import * as queries from '../../../graphql/queries';
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
@@ -13,6 +13,8 @@ import {
   ContributionGraph,
   StackedBarChart
 } from "react-native-chart-kit";
+import list from 'tcomb-form-native/lib/templates/bootstrap/list';
+
 
 
 const TrendsScreen = () => {
@@ -25,20 +27,36 @@ const TrendsScreen = () => {
   ]);
   const [show, setShow] = useState(false);
   const [noGraph, setNoGraph] = useState(false);
-  const [li, setLi] = useState(false);
-  const [keys, setKeys] = useState(false);
-  const [points, setPoints] = useState(false);
   const [nums, setNums] = useState([0]);
   const [dates, setDates] = useState([0]);
   const [showText, setShowText] = useState(false);
+  const [days, setDays] = useState([0]);
+  const [month, setMonth] = useState([0]);
+  const [years, setYears] = useState([0]);
   
   const test = [];
   const test2 = [];
 
+  /*query todosByDate {
+    todosByDate(
+      type: "Todo"
+      sortDirection: ASC
+    ) {
+      items {
+        id
+        title
+        createdAt
+      }
+    }
+  }*/
+
   const onPress = async (value) => {
     const user = await Auth.currentAuthenticatedUser();
+    
     try {
-        const variables = {
+        const variables = 
+        {
+          type: "general",
           filter: {
             name: {
               eq: value
@@ -46,23 +64,28 @@ const TrendsScreen = () => {
             userName: {
               eq: user.username
             }
-          }
+          },
+          sortDirection: "ASC",
         };
-        const allTodos = await API.graphql({ query: queries.listTodos, variables: variables });
-        const toDoList = allTodos.data.listTodos.items;
+        
+        const allTodos = await API.graphql({ 
+          query: queries.todosByDate, 
+          variables: variables 
+        });
+        const toDoList = allTodos.data.todosByDate.items;
+        
         if(toDoList.length != 0) {
-          setLi(toDoList);
           test.push(toDoList);
-          const times = test.flatMap(innerArr => innerArr.map(obj => obj.createdAt.substring(5,10)));
           const weights = test.flatMap(innerArr => innerArr.map(obj => obj.weight));
           const reps = test.flatMap(innerArr => innerArr.map(obj => obj.reps));
+          const days = test.flatMap(innerArr => innerArr.map(obj => obj.inputDate));
           arr1 = weights.map(Number)
           arr2 = reps.map(Number)
           const te = arr1.map(function(x,y){return ((x * (36/(37-arr2[y]))).toFixed(2))});
           setShow(true);
           setNoGraph(false);
           setNums(te.map(Number));
-          setDates(times);
+          setDates(days);
         }
         else {
           setShow(false);

@@ -7,6 +7,12 @@ export const getTodo = /* GraphQL */ `
       id
       name
       description
+      weight
+      reps
+      userId
+      userName
+      inputDate
+      type
       createdAt
       updatedAt
       __typename
@@ -24,6 +30,48 @@ export const listTodos = /* GraphQL */ `
         id
         name
         description
+        weight
+        reps
+        userId
+        userName
+        inputDate
+        type
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const todosByDate = /* GraphQL */ `
+  query TodosByDate(
+    $type: String!
+    $inputDate: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelTodoFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    todosByDate(
+      type: $type
+      inputDate: $inputDate
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        description
+        weight
+        reps
+        userId
+        userName
+        inputDate
+        type
         createdAt
         updatedAt
         __typename

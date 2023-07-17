@@ -7,6 +7,12 @@ export const onCreateTodo = /* GraphQL */ `
       id
       name
       description
+      weight
+      reps
+      userId
+      userName
+      inputDate
+      type
       createdAt
       updatedAt
       __typename
@@ -19,6 +25,12 @@ export const onUpdateTodo = /* GraphQL */ `
       id
       name
       description
+      weight
+      reps
+      userId
+      userName
+      inputDate
+      type
       createdAt
       updatedAt
       __typename
@@ -31,6 +43,12 @@ export const onDeleteTodo = /* GraphQL */ `
       id
       name
       description
+      weight
+      reps
+      userId
+      userName
+      inputDate
+      type
       createdAt
       updatedAt
       __typename
