@@ -24,13 +24,12 @@ const InputScreen = () => {
   const [weight, setWeight] = React.useState('');
   const [reps, setReps] = React.useState('');
   const [inputDate, setInputDate] = React.useState('');
-    const [date, setDate] = useState(new Date());
-    const navigation = useNavigation();
+  const [date, setDate] = useState(new Date());
+  const navigation = useNavigation();
 
-    const onGoBackPress = () => {
-      navigation.navigate('TabNavigation');
-    }
-
+  const onGoBackPress = () => {
+    navigation.navigate('TabNavigation');
+  }
 
   const onChanged = (text, cond) => {
       let newText = '';

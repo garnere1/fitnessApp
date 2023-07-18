@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { ScrollView, StyleSheet, Pressable, PixelRatio, FlatList, Text, View, Button, Alert, TouchableOpacity} from 'react-native';
+import { StyleSheet, Pressable, PixelRatio, FlatList, Text, View, Alert, TouchableOpacity} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Auth, API } from 'aws-amplify';
 import {deleteTodo } from '../../../../graphql/mutations';
@@ -75,7 +75,6 @@ const DeleteScreen = () => {
     
   }
 
-
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Delete a lift!</Text>
@@ -149,9 +148,10 @@ const DeleteScreen = () => {
                     )
                 }
             >
-              <Text style={styles.text}>Weight: {item.weight} 
-                {' '}Reps: {item.reps} 
-                {'\n'}Date: {item.inputDate}
+              <Text style={styles.text}>
+                <Text style={{fontWeight: 'bold'}}>Weight:</Text> {item.weight} 
+                {' '}<Text style={{fontWeight: 'bold'}}>Reps:</Text> {item.reps} 
+                {'\n'}<Text style={{fontWeight: 'bold'}}>Date:</Text> {item.inputDate}
               </Text>
             </TouchableOpacity>
           }
@@ -191,6 +191,7 @@ const styles = StyleSheet.create({
   },
   
   text: {
+    flex: 1,
     borderWidth:2,
     width:'100%',
     borderColor:'#9494b8',
