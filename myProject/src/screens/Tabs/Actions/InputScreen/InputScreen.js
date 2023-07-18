@@ -112,6 +112,11 @@ const InputScreen = () => {
     <View style={styles.container}>
     <Text style={styles.header}>Add a lift!</Text>
       <DropDownPicker
+        placeholder="Select a lift"
+        placeholderStyle={{
+          color: "black",
+          fontFamily: "Avenir",
+        }}
         dropDownDirection='AUTO'
         open={open}
         value={value}
@@ -162,19 +167,23 @@ const InputScreen = () => {
 const styles = StyleSheet.create({
   container: {
       flex:1,
-      justifyContent:'center',
-      alignItems:'center',
-  },
-  dropDownContainerStyle: {
-    backgroundColor: '#cce6ff',
-  },
-  labelStyle: {
-        color: "#003366"
+      backgroundColor: "#d6e0f5",
+      alignItems: 'center',
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
   },
   header: {
-    marginBottom: 10,
+    marginVertical: 30,
     fontSize: 20,
     color: '#003366',
+    fontFamily: "Avenir",
+  },
+  dropDownContainerStyle: {
+    backgroundColor: "#d6e0f5",
+  },
+  labelStyle: {
+        color: "#003366",
+        fontFamily: "Avenir",
   },
   input: {
       borderWidth:1,
@@ -183,6 +192,7 @@ const styles = StyleSheet.create({
       padding:10,
       marginTop: 10,
       marginBottom: 10,
+      fontFamily: "Avenir",
   },
   buttonContainer: {
       width:'80%',
