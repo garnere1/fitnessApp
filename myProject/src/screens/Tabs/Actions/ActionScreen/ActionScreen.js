@@ -1,10 +1,14 @@
 import React from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native';
-import {Auth} from 'aws-amplify';
+import {StyleSheet, Pressable, PixelRatio, View, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
+var FONT_BACK_LABEL   = 25;
+
+if (PixelRatio.get() <= 2) {
+  FONT_BACK_LABEL = 20;
+}
+
 const ActionScreen = () => {
-  
   const navigation = useNavigation();
 
   const onInputPress = () => {
@@ -14,28 +18,72 @@ const ActionScreen = () => {
   const onDeletePress = () => {
     navigation.navigate('DeleteScreen');
   }
-
+  
   return (
-    <View style={{flex: 1}}>
-      <Text>What would you like to do?</Text>
-      <Button 
-              title='Input'
-              onPress={() => onInputPress()}
-      />
-      <Button 
-              title='Delete'
-              onPress={() => onDeletePress()}
-      />
+    <View style={styles.container}>
+      <Text style={styles.header}>What would you like to do?</Text>
+      <Pressable 
+        onPress={onInputPress} 
+        style={({pressed}) => [
+          {
+            backgroundColor: pressed ? '#79d2a6' : '#b3e6cc' ,
+          },
+          styles.buttonContainer,
+        ]}>
+        <Text 
+          style = {styles.buttonText}>
+          Input
+        </Text>
+      </Pressable>
+      
+      <Pressable 
+        onPress={onDeletePress} 
+        style={({pressed}) => [
+          {
+            backgroundColor: pressed ? '#d27979' : '#e6b3b3',
+          },
+          styles.buttonContainer,
+        ]}>
+        <Text 
+          style = {styles.buttonText}>
+          Delete
+        </Text>
+      </Pressable>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-      flex:1,
-      justifyContent:'center',
-      alignItems:'center',
+    flex:1,
+    backgroundColor: "#d6e0f5",
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
   },
+  header: {
+    marginVertical: '20%',
+    fontSize: FONT_BACK_LABEL,
+    fontFamily: "Avenir",
+  },
+  buttonContainer: {
+    borderWidth: 2,
+    borderRadius: 5,
+    marginVertical: 20,
+    padding: 10,
+    width: '60%',
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontFamily: "Avenir",
+    fontSize: 25,
+  },
+  deleteButton: {
+    fontFamily: "Avenir",
+    borderWidth: 3,
+    fontSize: 25,
+  }
 })
+
 
 export default ActionScreen;

@@ -70,14 +70,12 @@ const DeleteScreen = () => {
     
   }
   const Separator = styled.View`
-    height: 10%;
+    height: 20%;
     width: 100%;
     background-color: #ced0ce;
 `;
 const ContentView = styled.View`
-    height: 50%;
     overflow: hidden;
-    margin-bottom: 5px;
 `;
 
 
@@ -131,8 +129,8 @@ const ContentView = styled.View`
             >
             <ContentView>
               <Text>Weight: {item.weight} 
-                Reps: {item.reps} 
-                Date: {item.inputDate}
+                {' '}Reps: {item.reps} 
+                {'\n'}Date: {item.inputDate}
               </Text>
             </ContentView>
             </TouchableOpacity>
