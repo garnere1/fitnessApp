@@ -1,13 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import { StyleSheet, FlatList, Text, View, TextInput, Button, Keyboard, Alert, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import { ScrollView, StyleSheet, Pressable, PixelRatio, FlatList, Text, View, Button, Alert, TouchableOpacity} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Auth, API } from 'aws-amplify';
-import { createTodo, updateTodo, deleteTodo } from '../../../../graphql/mutations';
-import DatePicker from 'react-native-date-picker'
+import {deleteTodo } from '../../../../graphql/mutations';
 import {useNavigation} from '@react-navigation/native';
-import { responsiveFontSizes } from '@mui/material';
 import * as queries from '../../../../graphql/queries';
 import styled from 'styled-components/native';
+
+var FONT_BACK_LABEL   = 25;
+
+if (PixelRatio.get() <= 2) {
+  FONT_BACK_LABEL = 20;
+}
+
 
 const DeleteScreen = () => {
   const [open, setOpen] = useState(false);
@@ -69,20 +74,17 @@ const DeleteScreen = () => {
     }
     
   }
-  const Separator = styled.View`
-    height: 20%;
-    width: 100%;
-    background-color: #ced0ce;
-`;
-const ContentView = styled.View`
-    overflow: hidden;
-`;
 
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Delete a lift!</Text>
       <DropDownPicker
+        placeholder="Select which lift you want to delete"
+        placeholderStyle={{
+          color: "black",
+          fontFamily: "Avenir",
+        }}
         dropDownDirection='AUTO'
         open={open}
         value={value}
@@ -94,19 +96,39 @@ const ContentView = styled.View`
         itemSeparator={true}
         labelStyle = {styles.labelStyle}
       />
-      <Button 
-              title='Submit'
-              onPress={() => onSubmitPress()}
-          />
-      <Button 
-              title='Go back'
-              onPress={() => onGoBackPress()}
-          />
+      <Pressable 
+        onPress={onSubmitPress} 
+        style={({pressed}) => [
+          {
+            backgroundColor: pressed ? '#80bfff' : '#cce6ff' ,
+          },
+          styles.buttonContainer,
+        ]}>
+        <Text 
+          style = {styles.buttonText}>
+          Submit
+        </Text>
+      </Pressable>
+      <Pressable 
+        onPress={onGoBackPress} 
+        style={({pressed}) => [
+          {
+            backgroundColor: pressed ? '#d27979' : '#ecc6c6' ,
+          },
+          styles.buttonContainer,
+        ]}>
+        <Text 
+          style = {styles.buttonText}>
+          Go back
+        </Text>
+      </Pressable>
+      {show && (
+      <Text style={styles.header2}>Click the lift you want to delete</Text>
+      )}
       {show && (
         <FlatList
             data={fullList}
             keyExtractor={({ id }) => id.toString()}
-            ItemSeparatorComponent={() => <Separator />}
             renderItem={({ item }) => 
             <TouchableOpacity
                 onPress={() =>
@@ -127,12 +149,10 @@ const ContentView = styled.View`
                     )
                 }
             >
-            <ContentView>
-              <Text>Weight: {item.weight} 
+              <Text style={styles.text}>Weight: {item.weight} 
                 {' '}Reps: {item.reps} 
                 {'\n'}Date: {item.inputDate}
               </Text>
-            </ContentView>
             </TouchableOpacity>
           }
         />
@@ -144,32 +164,51 @@ const ContentView = styled.View`
 
 const styles = StyleSheet.create({
   container: {
-      flex:1,
-      justifyContent:'center',
-      alignItems:'center',
-  },
-  dropDownContainerStyle: {
-    backgroundColor: '#cce6ff',
-  },
-  labelStyle: {
-        color: "#003366"
+    flex:1,
+    backgroundColor: "#d6e0f5",
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
   },
   header: {
-    marginBottom: 10,
-    fontSize: 20,
+    fontSize: FONT_BACK_LABEL,
     color: '#003366',
+    fontFamily: "Avenir",
+    marginVertical: 30,
   },
-  input: {
-      borderWidth:1,
-      width:'80%',
-      borderColor:'#c7c3c3',
-      padding:10,
-      marginTop: 10,
-      marginBottom: 10,
+  header2: {
+    fontSize: FONT_BACK_LABEL,
+    color: '#003366',
+    fontFamily: "Avenir",
+    marginVertical: 20,
   },
+  dropDownContainerStyle: {
+    backgroundColor: "#f2f2f2",
+  },
+  labelStyle: {
+    color: "#003366",
+    fontFamily: "Avenir",
+  },
+  
+  text: {
+    borderWidth:2,
+    width:'100%',
+    borderColor:'#9494b8',
+    padding:10,
+    marginVertical: 8,
+    fontFamily: "Avenir",
+},
   buttonContainer: {
-      width:'80%',
-      borderWidth: 1,
+    borderWidth: 2,
+    borderRadius: 5,
+    marginVertical: 10,
+    padding: 10,
+    width: '60%',
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontFamily: "Avenir",
+    fontSize: FONT_BACK_LABEL,
   },
 })
 export default DeleteScreen;

@@ -76,12 +76,12 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontFamily: "Avenir",
-    fontSize: 25,
+    fontSize: FONT_BACK_LABEL,
   },
   deleteButton: {
     fontFamily: "Avenir",
     borderWidth: 3,
-    fontSize: 25,
+    fontSize: FONT_BACK_LABEL,
   }
 })
 

@@ -1,10 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Keyboard, Alert } from 'react-native';
+import React, {useState} from 'react';
+import { StyleSheet, Pressable, PixelRatio, Text, View, TextInput, Button, Keyboard, Alert } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Auth, API } from 'aws-amplify';
-import { createTodo, updateTodo, deleteTodo } from '../../../../graphql/mutations';
+import { createTodo } from '../../../../graphql/mutations';
 import DatePicker from 'react-native-date-picker'
 import {useNavigation} from '@react-navigation/native';
+
+var FONT_BACK_LABEL   = 25;
+
+if (PixelRatio.get() <= 2) {
+  FONT_BACK_LABEL = 20;
+}
 
 
 const InputScreen = () => {
@@ -55,7 +61,7 @@ const InputScreen = () => {
       }
   }
 
-  const onPress = async () => {
+  const onSubmitPress = async () => {
         setInputDate(date.toISOString().substring(0,10));
         
     if (weight.length !== 0 && reps.length !== 0) {
@@ -149,16 +155,32 @@ const InputScreen = () => {
           placeholder='Reps'
           maxLength={10}
       />
-      <View style={styles.buttonContainer}>
-          <Button 
-              title='Submit'
-              onPress={() => onPress()}
-          />
-      </View>
-      <Button 
-              title='Go back'
-              onPress={() => onGoBackPress()}
-          />
+      <Pressable 
+        onPress={onSubmitPress} 
+        style={({pressed}) => [
+          {
+            backgroundColor: pressed ? '#80bfff' : '#cce6ff' ,
+          },
+          styles.buttonContainer,
+        ]}>
+        <Text 
+          style = {styles.buttonText}>
+          Submit
+        </Text>
+      </Pressable>
+      <Pressable 
+        onPress={onGoBackPress} 
+        style={({pressed}) => [
+          {
+            backgroundColor: pressed ? '#d27979' : '#ecc6c6' ,
+          },
+          styles.buttonContainer,
+        ]}>
+        <Text 
+          style = {styles.buttonText}>
+          Go back
+        </Text>
+      </Pressable>
     </View>
 
   );
@@ -174,29 +196,37 @@ const styles = StyleSheet.create({
   },
   header: {
     marginVertical: 30,
-    fontSize: 20,
+    fontSize: FONT_BACK_LABEL,
     color: '#003366',
     fontFamily: "Avenir",
   },
   dropDownContainerStyle: {
-    backgroundColor: "#d6e0f5",
+    backgroundColor: "#f2f2f2",
   },
   labelStyle: {
         color: "#003366",
         fontFamily: "Avenir",
   },
   input: {
-      borderWidth:1,
+      borderWidth:2,
       width:'80%',
-      borderColor:'#c7c3c3',
+      borderColor:'#9494b8',
       padding:10,
       marginTop: 10,
       marginBottom: 10,
       fontFamily: "Avenir",
   },
   buttonContainer: {
-      width:'80%',
-      borderWidth: 1,
+    borderWidth: 2,
+    borderRadius: 5,
+    marginVertical: 10,
+    padding: 10,
+    width: '60%',
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontFamily: "Avenir",
+    fontSize: FONT_BACK_LABEL,
   },
 })
 
