@@ -70,7 +70,7 @@ const DeleteScreen = () => {
       setShow(true);
     }
     else {
-
+      console.log('empty');
     }
     
   }

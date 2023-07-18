@@ -31,6 +31,7 @@ const InputScreen = () => {
     navigation.navigate('TabNavigation');
   }
 
+
   const onChanged = (text, cond) => {
       let newText = '';
       let numbers = '0123456789';
@@ -62,8 +63,10 @@ const InputScreen = () => {
 
   const onSubmitPress = async () => {
         setInputDate(date.toISOString().substring(0,10));
-        
-    if (weight.length !== 0 && reps.length !== 0) {
+    if(reps >= 37) {
+      Alert.alert("Max reps is 36")
+    }
+    else if (weight.length !== 0 && reps.length !== 0 && weight != 0 && reps != 0) {
           let max = (weight * (36/(37-reps))).toFixed(0);
           Alert.alert(
               "Confirm: " + weight + " x " + reps,
