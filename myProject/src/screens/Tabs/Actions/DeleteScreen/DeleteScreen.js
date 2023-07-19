@@ -25,6 +25,7 @@ const DeleteScreen = () => {
   const [fullList, setFullList] = useState([0]);
   const navigation = useNavigation();
   const [show, setShow] = useState(false);
+  const [empty, setEmpty] = useState(false);
   
 
   const onGoBackPress = () => {
@@ -70,7 +71,8 @@ const DeleteScreen = () => {
       setShow(true);
     }
     else {
-      console.log('empty');
+      setShow(false);
+      setEmpty(true);
     }
     
   }
@@ -121,6 +123,9 @@ const DeleteScreen = () => {
           Go back
         </Text>
       </Pressable>
+      {empty && (
+      <Text style={styles.header2}>No data for this lift yet</Text>
+      )}
       {show && (
       <Text style={styles.header2}>Click the lift you want to delete</Text>
       )}
