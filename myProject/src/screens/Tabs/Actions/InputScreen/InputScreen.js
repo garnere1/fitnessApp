@@ -23,7 +23,7 @@ const InputScreen = () => {
   ]);
   const [weight, setWeight] = React.useState('');
   const [reps, setReps] = React.useState('');
-  const [inputDate, setInputDate] = React.useState('');
+  let inputDate = '';
   const [date, setDate] = useState(new Date());
   const navigation = useNavigation();
 
@@ -62,7 +62,7 @@ const InputScreen = () => {
   }
 
   const onSubmitPress = async () => {
-        setInputDate(date.toISOString().substring(0,10));
+    inputDate = date.toISOString().substring(0,10);
     if(reps >= 37) {
       Alert.alert("Max reps is 36")
     }
@@ -90,8 +90,6 @@ const InputScreen = () => {
   }
 
   const onOkPress = async() => {
-        setWeight('');
-        setReps('');
         try {
             const user = await Auth.currentAuthenticatedUser();
             const response = await API.graphql({
@@ -110,6 +108,8 @@ const InputScreen = () => {
             });
         console.log('Response :\n');
         console.log(response);
+        setWeight('');
+        setReps('');
         } catch (e) {
         console.log(e.message);
         }  
