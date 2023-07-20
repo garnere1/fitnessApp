@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Pressable, PixelRatio, Text, View, TextInput, Button, Keyboard, Alert } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Auth, API } from 'aws-amplify';
 import { createTodo } from '../../../../graphql/mutations';
 import DatePicker from 'react-native-date-picker'
 import {useNavigation} from '@react-navigation/native';
+import * as queries from '../../../../graphql/queries';
 
 var FONT_BACK_LABEL   = 25;
 
@@ -26,6 +27,7 @@ const InputScreen = () => {
   let inputDate = '';
   const [date, setDate] = useState(new Date());
   const navigation = useNavigation();
+  const test = [];
 
   const onGoBackPress = async () => {
     navigation.navigate('TabNavigation');
@@ -33,6 +35,31 @@ const InputScreen = () => {
     //setItems(items => [...items, {label : 'test', value: 'testVal'}]);
   }
 
+  useEffect(() => {
+    loadList();
+  }, [])
+
+  const loadList = async() => {
+    const user = await Auth.currentAuthenticatedUser();
+    const variables = 
+    {
+      filter: {
+        userName: {
+          eq: user.username
+        }
+      },
+    };
+    const allTodos = await API.graphql({ 
+      query: queries.listLifts, 
+      variables: variables 
+    });
+    const toDoList = allTodos.data.listLifts.items;
+    test.push(toDoList);
+    const names = test.flatMap(innerArr => innerArr.map(obj => obj.name));
+    names.forEach((name) => {
+      setItems(items => [...items, {label : name, value: name}]);
+    });
+  }
 
   const onChanged = (text, cond) => {
       let newText = '';
