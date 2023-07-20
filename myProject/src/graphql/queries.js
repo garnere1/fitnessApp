@@ -84,3 +84,37 @@ export const todosByDate = /* GraphQL */ `
     }
   }
 `;
+export const getLifts = /* GraphQL */ `
+  query GetLifts($id: ID!) {
+    getLifts(id: $id) {
+      id
+      name
+      userId
+      userName
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listLifts = /* GraphQL */ `
+  query ListLifts(
+    $filter: ModelLiftsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLifts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        userId
+        userName
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;

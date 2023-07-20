@@ -18,6 +18,10 @@ const ActionScreen = () => {
   const onDeletePress = () => {
     navigation.navigate('DeleteScreen');
   }
+
+  const onCreatePress = () => {
+    navigation.navigate('CreateScreen');
+  }
   
   return (
     <View style={styles.container}>
@@ -47,6 +51,19 @@ const ActionScreen = () => {
         <Text 
           style = {styles.buttonText}>
           Delete
+        </Text>
+      </Pressable>
+      <Pressable 
+        onPress={onCreatePress} 
+        style={({pressed}) => [
+          {
+            backgroundColor: pressed ? '#6666ff' : '#b3b3ff',
+          },
+          styles.buttonContainer,
+        ]}>
+        <Text 
+          style = {styles.buttonText}>
+          Edit lifts
         </Text>
       </Pressable>
     </View>

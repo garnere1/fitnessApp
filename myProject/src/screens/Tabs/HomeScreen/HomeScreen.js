@@ -14,10 +14,14 @@ const HomeScreen = () => {
   const [show, setShow] = useState(false);
   const [empty, setEmpty] = useState(false);
   const [squatVal, setSquatVal] = useState(0);
-  const [positive, setPositive] = useState(true);
+  const [squatPositive, setSquatPositive] = useState(true);
+  const [benchVal, setBenchVal] = useState(0);
+  const [benchPositive, setBenchPositive] = useState(true);
+  const [deadliftVal, setDeadliftVal] = useState(0);
+  const [deadliftPositive, setDeadliftPositive] = useState(true);
 
 
-  const loadData = async () => {
+  const loadData = async (value) => {
     const user = await Auth.currentAuthenticatedUser();
     try {
       const variables = 
@@ -25,7 +29,7 @@ const HomeScreen = () => {
         type: "general",
         filter: {
           name: {
-            eq: "squat"
+            eq: value
           },
           userName: {
             eq: user.username
@@ -42,16 +46,18 @@ const HomeScreen = () => {
       if(toDoList.length != 0) {
         test.push(toDoList);
         const maxes = test.flatMap(innerArr => innerArr.map(obj => obj.max));
-        setSquatVal((((maxes[maxes.length - 1] - maxes[0]) / maxes[0]) * 100).toFixed(1));
-        if(squatVal < 0) {
-          setPositive(false);
+        if(value == "squat") {
+          setSquatVal((((maxes[maxes.length - 1] - maxes[0]) / maxes[0]) * 100).toFixed(1));
+          if(squatVal < 0) {
+            setSquatPositive(false);
+          }
         }
-        setEmpty(false)
-        setShow(true)
+        setEmpty(false);
+        setShow(true);
       }
       else {
-        setShow(false)
-        setEmpty(true)
+        setShow(false);
+        setEmpty(true);
       }
     
     } catch (e) {
@@ -60,7 +66,7 @@ const HomeScreen = () => {
   }
 
   useEffect(() => {
-    loadData();
+    loadData("squat");
   }, [])
 
   return (
@@ -70,7 +76,7 @@ const HomeScreen = () => {
       </Text>
       {show && (
         <Text style={[
-          {color: positive ? '#d27979' : '#ecc6c6'},
+          {color: squatPositive ? '#53c653' : '#ff4d4d'},
           styles.number,
         ]}>{squatVal}</Text>
       )}

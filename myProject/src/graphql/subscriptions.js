@@ -58,3 +58,42 @@ export const onDeleteTodo = /* GraphQL */ `
     }
   }
 `;
+export const onCreateLifts = /* GraphQL */ `
+  subscription OnCreateLifts($filter: ModelSubscriptionLiftsFilterInput) {
+    onCreateLifts(filter: $filter) {
+      id
+      name
+      userId
+      userName
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateLifts = /* GraphQL */ `
+  subscription OnUpdateLifts($filter: ModelSubscriptionLiftsFilterInput) {
+    onUpdateLifts(filter: $filter) {
+      id
+      name
+      userId
+      userName
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteLifts = /* GraphQL */ `
+  subscription OnDeleteLifts($filter: ModelSubscriptionLiftsFilterInput) {
+    onDeleteLifts(filter: $filter) {
+      id
+      name
+      userId
+      userName
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;

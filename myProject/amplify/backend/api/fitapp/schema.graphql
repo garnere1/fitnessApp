@@ -10,4 +10,11 @@ type Todo @model @auth(rules: [{allow: public}]) {
   inputDate: AWSDate
   type: String! @index(name: "todosByDate", queryField: "todosByDate", sortKeyFields: ["inputDate"])
 }
+
+type Lifts @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  userId: String
+  userName: String
+}
  

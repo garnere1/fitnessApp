@@ -67,3 +67,51 @@ export const deleteTodo = /* GraphQL */ `
     }
   }
 `;
+export const createLifts = /* GraphQL */ `
+  mutation CreateLifts(
+    $input: CreateLiftsInput!
+    $condition: ModelLiftsConditionInput
+  ) {
+    createLifts(input: $input, condition: $condition) {
+      id
+      name
+      userId
+      userName
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateLifts = /* GraphQL */ `
+  mutation UpdateLifts(
+    $input: UpdateLiftsInput!
+    $condition: ModelLiftsConditionInput
+  ) {
+    updateLifts(input: $input, condition: $condition) {
+      id
+      name
+      userId
+      userName
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteLifts = /* GraphQL */ `
+  mutation DeleteLifts(
+    $input: DeleteLiftsInput!
+    $condition: ModelLiftsConditionInput
+  ) {
+    deleteLifts(input: $input, condition: $condition) {
+      id
+      name
+      userId
+      userName
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;

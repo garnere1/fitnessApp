@@ -27,8 +27,10 @@ const InputScreen = () => {
   const [date, setDate] = useState(new Date());
   const navigation = useNavigation();
 
-  const onGoBackPress = () => {
+  const onGoBackPress = async () => {
     navigation.navigate('TabNavigation');
+    
+    //setItems(items => [...items, {label : 'test', value: 'testVal'}]);
   }
 
 
