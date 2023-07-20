@@ -90,6 +90,7 @@ const InputScreen = () => {
   }
 
   const onOkPress = async() => {
+        let max = (weight * (36/(37-reps))).toFixed(0);
         try {
             const user = await Auth.currentAuthenticatedUser();
             const response = await API.graphql({
@@ -102,6 +103,7 @@ const InputScreen = () => {
                     "userId": user.attributes.sub,
                     "userName": user.username,
                     "inputDate": inputDate,
+                    "max": max,
                     "type": "general",
                 }
                 }

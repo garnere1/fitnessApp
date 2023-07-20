@@ -68,6 +68,7 @@ const DeleteScreen = () => {
     const toDoList = allTodos.data.todosByDate.items;
     setFullList(toDoList);
     if(toDoList.length != 0) {
+      setEmpty(false);
       setShow(true);
     }
     else {

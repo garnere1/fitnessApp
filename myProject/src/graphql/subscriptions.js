@@ -11,6 +11,7 @@ export const onCreateTodo = /* GraphQL */ `
       reps
       userId
       userName
+      max
       inputDate
       type
       createdAt
@@ -29,6 +30,7 @@ export const onUpdateTodo = /* GraphQL */ `
       reps
       userId
       userName
+      max
       inputDate
       type
       createdAt
@@ -47,6 +49,7 @@ export const onDeleteTodo = /* GraphQL */ `
       reps
       userId
       userName
+      max
       inputDate
       type
       createdAt

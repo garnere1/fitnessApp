@@ -11,6 +11,7 @@ export const getTodo = /* GraphQL */ `
       reps
       userId
       userName
+      max
       inputDate
       type
       createdAt
@@ -34,6 +35,7 @@ export const listTodos = /* GraphQL */ `
         reps
         userId
         userName
+        max
         inputDate
         type
         createdAt
@@ -70,6 +72,7 @@ export const todosByDate = /* GraphQL */ `
         reps
         userId
         userName
+        max
         inputDate
         type
         createdAt

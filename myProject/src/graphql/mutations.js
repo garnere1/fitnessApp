@@ -14,6 +14,7 @@ export const createTodo = /* GraphQL */ `
       reps
       userId
       userName
+      max
       inputDate
       type
       createdAt
@@ -35,6 +36,7 @@ export const updateTodo = /* GraphQL */ `
       reps
       userId
       userName
+      max
       inputDate
       type
       createdAt
@@ -56,6 +58,7 @@ export const deleteTodo = /* GraphQL */ `
       reps
       userId
       userName
+      max
       inputDate
       type
       createdAt

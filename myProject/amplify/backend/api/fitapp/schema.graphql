@@ -6,6 +6,7 @@ type Todo @model @auth(rules: [{allow: public}]) {
   reps: Float
   userId: String
   userName: String
+  max: Float
   inputDate: AWSDate
   type: String! @index(name: "todosByDate", queryField: "todosByDate", sortKeyFields: ["inputDate"])
 }
