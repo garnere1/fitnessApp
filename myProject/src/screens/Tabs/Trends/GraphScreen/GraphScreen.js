@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, ScrollView, Text, View, TextInput, Button, Keyboard, Alert, Dimensions, ActionSheetIOS } from 'react-native';
+import { StyleSheet, PixelRatio, Pressable, ScrollView, Text, View, TextInput, Button, Keyboard, Alert, Dimensions, ActionSheetIOS } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Auth, API, graphqlOperation, SortDirection } from 'aws-amplify';
-import { createTodo, updateTodo, deleteTodo } from '../../../graphql/mutations';
-import * as queries from '../../../graphql/queries';
+import { createTodo, updateTodo, deleteTodo } from '../../../../graphql/mutations';
+import * as queries from '../../../../graphql/queries';
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -14,11 +14,15 @@ import {
   ContributionGraph,
   StackedBarChart
 } from "react-native-chart-kit";
-import SelectDropdown from 'react-native-select-dropdown'
+
+var FONT_BACK_LABEL   = 25;
+
+if (PixelRatio.get() <= 2) {
+  FONT_BACK_LABEL = 20;
+}
 
 
-
-const TrendsScreen = () => {
+const GraphScreen = ({ navigation }) => {
   const [liftsOpen, setLiftsOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [lifts, setLifts] = useState([
@@ -34,20 +38,19 @@ const TrendsScreen = () => {
   const [days, setDays] = useState([0]);
   const [month, setMonth] = useState([0]);
   const [years, setYears] = useState([0]);
-  const navigation = useNavigation();
-  const list = ["Squat", "Bench", "Deadlift"];
+
   
-  const test = [];
   const test2 = [];
+  const test = [];
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      // The screen is focused
-      // Call any action
-      loadList();
-    });
-    
+    loadList();
   }, [])
+
+  const onGoBackPress = async () => {
+    navigation.navigate('TabNavigation');
+  
+  }
 
   const loadList = async() => {
     const user = await Auth.currentAuthenticatedUser();
@@ -66,11 +69,14 @@ const TrendsScreen = () => {
     const toDoList = allTodos.data.listLifts.items;
     test2.push(toDoList);
     const names = test2.flatMap(innerArr => innerArr.map(obj => obj.name));
+    setLifts([
+      {label: 'Squat', value: 'squat'},
+      {label: 'Bench', value: 'bench'},
+      {label: 'Deadlift', value: 'deadlift'}
+    ]);
     names.forEach((name) => {
-      list.push(name);
-      console.log(name);
+      setLifts(lifts => [...lifts, {label : name, value: name}]);
     });
-    console.log(list);
   }
 
   const onPress = async (value) => {
@@ -134,21 +140,22 @@ const TrendsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <SelectDropdown
-        data={list}
-        onSelect={(selectedItem, index) => {
-          console.log(selectedItem, index)
+      <DropDownPicker
+        placeholder="Select which lift you want to graph"
+        placeholderStyle={{
+          color: "black",
+          fontFamily: "Avenir",
         }}
-        buttonTextAfterSelection={(selectedItem, index) => {
-          // text represented after item is selected
-          // if data array is an array of objects then return selectedItem.property to render after item is selected
-          return selectedItem
-        }}
-        rowTextForSelection={(item, index) => {
-          // text represented for each item in dropdown
-          // if data array is an array of objects then return item.property to represent item in dropdown
-          return item
-        }}
+        dropDownDirection='AUTO'
+        open={liftsOpen}
+        value={value}
+        items={lifts}
+        setOpen={setLiftsOpen}
+        setValue={setValue}
+        setItems={loadList}
+        dropDownContainerStyle = {styles.dropDownContainerStyle}
+        itemSeparator={true}
+        labelStyle = {styles.labelStyle}
       />
       <Button 
           title='Submit'
@@ -194,6 +201,19 @@ const TrendsScreen = () => {
       {showText && (
         <Text>Hello</Text>
       )}
+      <Pressable 
+        onPress={onGoBackPress} 
+        style={({pressed}) => [
+          {
+            backgroundColor: pressed ? '#d27979' : '#ecc6c6' ,
+          },
+          styles.buttonContainer,
+        ]}>
+        <Text 
+          style = {styles.buttonText}>
+          Go back
+        </Text>
+      </Pressable>
     </View>
   );
 };
@@ -215,8 +235,16 @@ const styles = StyleSheet.create({
       padding:10,
   },
   buttonContainer: {
-      marginBottom: 1,
-      width:'80%',
+    borderWidth: 2,
+    borderRadius: 5,
+    marginVertical: 10,
+    padding: 10,
+    width: '60%',
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontFamily: "Avenir",
+    fontSize: FONT_BACK_LABEL,
   },
   chart: {
     flex: 1
@@ -231,4 +259,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default TrendsScreen;
+export default GraphScreen;

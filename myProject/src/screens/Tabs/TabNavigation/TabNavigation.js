@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SettingsScreen from '../SettingsScreen';
 import HomeScreen from '../HomeScreen';
 import ActionScreen from '../Actions/ActionScreen';
-import TrendsScreen from '../TrendsScreen';
+import TrendOptionScreen from '../Trends/TrendOptionScreen/TrendOptionScreen';
 import { fontFamily } from '@mui/system';
 
 const Tab = createBottomTabNavigator();
@@ -62,7 +62,7 @@ const TabNavigation = () => {
               }}
           />
           <Tab.Screen name="Trends" 
-            component={TrendsScreen} 
+            component={TrendOptionScreen} 
             options={{
               tabBarLabel: 'Trends',
               tabBarLabelStyle: {color: 'black',

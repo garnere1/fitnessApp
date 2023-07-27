@@ -13,6 +13,7 @@ import {Auth, Hub} from 'aws-amplify';
 import DeleteScreen from '../screens/Tabs/Actions/DeleteScreen';
 import InputScreen from '../screens/Tabs/Actions/InputScreen';
 import CreateScreen from '../screens/Tabs/Actions/ActionScreen/CreateScreen';
+import GraphScreen from '../screens/Tabs/Trends/GraphScreen/GraphScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +61,7 @@ const Navigation = () => {
           <Stack.Screen name="DeleteScreen" component={DeleteScreen} />
           <Stack.Screen name="InputScreen" component={InputScreen} />
           <Stack.Screen name="CreateScreen" component={CreateScreen} />
+          <Stack.Screen name="GraphScreen" component={GraphScreen} />
           </>
         ) : (
           <>
