@@ -10,79 +10,11 @@ if (PixelRatio.get() <= 2) {
 }
 
 const HomeScreen = () => {
-  const test = [];
-  const [show, setShow] = useState(false);
-  const [empty, setEmpty] = useState(false);
-  const [squatVal, setSquatVal] = useState(0);
-  const [squatPositive, setSquatPositive] = useState(true);
-  const [benchVal, setBenchVal] = useState(0);
-  const [benchPositive, setBenchPositive] = useState(true);
-  const [deadliftVal, setDeadliftVal] = useState(0);
-  const [deadliftPositive, setDeadliftPositive] = useState(true);
-
-
-  const loadData = async (value) => {
-    const user = await Auth.currentAuthenticatedUser();
-    try {
-      const variables = 
-      {
-        type: "general",
-        filter: {
-          name: {
-            eq: value
-          },
-          userName: {
-            eq: user.username
-          }
-        },
-        sortDirection: "ASC",
-      };
-      
-      const allTodos = await API.graphql({ 
-        query: queries.todosByDate, 
-        variables: variables 
-      });
-      const toDoList = allTodos.data.todosByDate.items;
-      if(toDoList.length != 0) {
-        test.push(toDoList);
-        const maxes = test.flatMap(innerArr => innerArr.map(obj => obj.max));
-        if(value == "squat") {
-          setSquatVal((((maxes[maxes.length - 1] - maxes[0]) / maxes[0]) * 100).toFixed(1));
-          if(squatVal < 0) {
-            setSquatPositive(false);
-          }
-        }
-        setEmpty(false);
-        setShow(true);
-      }
-      else {
-        setShow(false);
-        setEmpty(true);
-      }
-    
-    } catch (e) {
-      console.log(e.message);
-      } 
-  }
-
-  useEffect(() => {
-    loadData("squat");
-  }, [])
-
   return (
     <View style={styles.container}>
       <Text style={styles.header}>
-        Quick Statistics
+        Welcome to "App name"
       </Text>
-      {show && (
-        <Text style={[
-          {color: squatPositive ? '#53c653' : '#ff4d4d'},
-          styles.number,
-        ]}>{squatVal}</Text>
-      )}
-      {empty && (
-        <Text>Empty</Text>
-      )}
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Pressable, PixelRatio, FlatList, Text, View, Alert, TouchableOpacity} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Auth, API } from 'aws-amplify';
@@ -26,10 +26,36 @@ const DeleteScreen = () => {
   const navigation = useNavigation();
   const [show, setShow] = useState(false);
   const [empty, setEmpty] = useState(false);
-  
+  const test = [];
 
   const onGoBackPress = () => {
     navigation.navigate('TabNavigation');
+  }
+
+  useEffect(() => {
+    loadList();
+  }, [])
+
+  const loadList = async() => {
+    const user = await Auth.currentAuthenticatedUser();
+    const variables = 
+    {
+      filter: {
+        userName: {
+          eq: user.username
+        }
+      },
+    };
+    const allTodos = await API.graphql({ 
+      query: queries.listLifts, 
+      variables: variables 
+    });
+    const toDoList = allTodos.data.listLifts.items;
+    test.push(toDoList);
+    const names = test.flatMap(innerArr => innerArr.map(obj => obj.name));
+    names.forEach((name) => {
+      setItems(items => [...items, {label : name, value: name}]);
+    });
   }
 
   const onDeletePress = async(id_num) => {
