@@ -29,11 +29,11 @@ const CreateScreen = () => {
   }
   const onSubmitPress = async () => {
     if(newName.length == 0) {
-      Alert.alert("Input name of new lift")
+      Alert.alert("Input name of new exercise")
     }
     else {
       Alert.alert(
-      "Confirm name of lift: ", newName,
+      "Confirm name of exercise: ", newName,
       [
           {
               text: "Cancel",
@@ -115,8 +115,8 @@ const CreateScreen = () => {
 
   return (
     <View style={styles.container}>
-    <Text style={styles.header}>Add a lift:</Text>
-    <TextInput placeholder='Name of lift'
+    <Text style={styles.header}>Add an exercise:</Text>
+    <TextInput placeholder='Name of exercise'
         onChangeText={setNewName}
         value={newName}
         autoCapitalize='none'
@@ -145,12 +145,12 @@ const CreateScreen = () => {
         ]}>
         <Text 
           style = {styles.buttonText}>
-          Click to delete a lift
+          Delete an exercise
         </Text>
       </Pressable>
 
       {show && (
-        <Text>Click which lift you would like to delete</Text>
+        <Text>Click which exercise you would like to delete</Text>
       )}
 
       {show && (
@@ -184,7 +184,7 @@ const CreateScreen = () => {
         />
       )}
       {empty && (
-        <Text style={styles.header}>No custom lifts</Text>
+        <Text style={styles.header}>No custom exercises</Text>
       )}
       <Pressable 
         onPress={onGoBackPress} 

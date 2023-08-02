@@ -31,17 +31,17 @@ const styles = StyleSheet.create({
     },
 
     container_PRIMARY: {
-        backgroundColor: '#3DB8FF',
+        backgroundColor: '#7094db',
     },
 
     container_TERTIARY: {
-        backgroundColor: '#B5E6FF',
+        backgroundColor: '#99b3e6',
         borderColor: '#C6C8C9',
         borderWidth: 2,
     },
 
     container_SECONDARY: {
-        backgroundColor: '#E8F7FF',
+        backgroundColor: '#d6e0f5',
         borderColor: '#C6C8C9',
         borderWidth: 2,
     },
@@ -52,11 +52,11 @@ const styles = StyleSheet.create({
     },
 
     text_TERTIARY: {
-        color: 'grey',
+        color: 'black',
     },
 
     text_SECONDARY: {
-        color: 'grey',
+        color: 'black',
     }
 });
 

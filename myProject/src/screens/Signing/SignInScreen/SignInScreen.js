@@ -7,12 +7,12 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
-import Logo from '../../../../assets/images/Logo_1.png';
 import CustomInput from '../../../components/CustomInput';
 import CustomButton from '../../../components/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {Auth} from 'aws-amplify';
+import logo180 from '../../../../assets/images/logo180.jpg';
 
 const SignInScreen = () => {
   const {height} = useWindowDimensions();
@@ -52,7 +52,7 @@ const SignInScreen = () => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
         <Image
-          source={Logo}
+          source={logo180}
           style={[styles.logo, {height: height * 0.3}]}
           resizeMode="contain"
         />
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     padding: 20,
+    
   },
   logo: {
     width: '70%',

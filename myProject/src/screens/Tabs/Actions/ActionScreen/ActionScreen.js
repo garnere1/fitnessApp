@@ -63,7 +63,7 @@ const ActionScreen = () => {
         ]}>
         <Text 
           style = {styles.buttonText}>
-          Edit lifts
+          Edit exercises
         </Text>
       </Pressable>
     </View>
