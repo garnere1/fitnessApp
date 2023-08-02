@@ -56,6 +56,7 @@ const InputScreen = () => {
     const toDoList = allTodos.data.listLifts.items;
     test.push(toDoList);
     const names = test.flatMap(innerArr => innerArr.map(obj => obj.name));
+    
     names.forEach((name) => {
       setItems(items => [...items, {label : name, value: name}]);
     });

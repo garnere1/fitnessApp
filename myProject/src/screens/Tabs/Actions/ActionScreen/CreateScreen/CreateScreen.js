@@ -145,11 +145,13 @@ const CreateScreen = () => {
         ]}>
         <Text 
           style = {styles.buttonText}>
-          Delete a lift
+          Click to delete a lift
         </Text>
       </Pressable>
 
-      
+      {show && (
+        <Text>Click which lift you would like to delete</Text>
+      )}
 
       {show && (
         <FlatList

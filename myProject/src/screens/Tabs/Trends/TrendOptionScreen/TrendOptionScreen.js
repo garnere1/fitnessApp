@@ -18,6 +18,7 @@ const TrendOptionScreen = () => {
   
   return (
     <View style={styles.container}>
+      <Text style={styles.header}>What would you like to do?</Text>
       <Pressable 
         onPress={onGraphPress} 
         style={({pressed}) => [

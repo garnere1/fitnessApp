@@ -1,19 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, PixelRatio, Pressable, ScrollView, Text, View, TextInput, Button, Keyboard, Alert, Dimensions, ActionSheetIOS } from 'react-native';
+import { StyleSheet, PixelRatio, Pressable, ScrollView, Text, View, TextInput, Button, Keyboard, useWindowDimensions, Dimensions, ActionSheetIOS } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { Auth, API, graphqlOperation, SortDirection } from 'aws-amplify';
-import { createTodo, updateTodo, deleteTodo } from '../../../../graphql/mutations';
+import { Auth, API } from 'aws-amplify';
 import * as queries from '../../../../graphql/queries';
-import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
-import {useNavigation} from '@react-navigation/native';
 import {
   LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
 } from "react-native-chart-kit";
+import FlashMessage, { showMessage } from "react-native-flash-message";
 
 var FONT_BACK_LABEL   = 25;
 
@@ -38,6 +31,8 @@ const GraphScreen = ({ navigation }) => {
   const [days, setDays] = useState([0]);
   const [month, setMonth] = useState([0]);
   const [years, setYears] = useState([0]);
+  const {height} = useWindowDimensions();
+  const [graphValue , setGraphValue] = useState(0);
 
   
   const test2 = [];
@@ -138,6 +133,8 @@ const GraphScreen = ({ navigation }) => {
       ],
     };
 
+  
+
   return (
     <View style={styles.container}>
       <DropDownPicker
@@ -170,13 +167,20 @@ const GraphScreen = ({ navigation }) => {
             data={data}
             verticalLabelRotation={30}
             width={Dimensions.get("window").width * 1.5}
-            height={220}
+            height={height * 0.7}
             withInnerLines = "false"
             withOuterLines = "false"
             withVerticalLines = "false"
             withHorizontalLines = "false"
-            onDataPointClick={({index})=>{
-              setShowText(true);
+            onDataPointClick={({value})=>{
+              showMessage({
+                message: "One Rep Max:",
+                description: `${value}`,
+                type: "default",
+                backgroundColor: '#c2d1f0', // background color
+                color: "#606060", // text color
+              })
+
             }} 
             yAxisSuffix=" lbs"
             chartConfig={{
@@ -188,7 +192,7 @@ const GraphScreen = ({ navigation }) => {
               propsForDots: {
                 r: "6",
                 strokeWidth: "2",
-                stroke: "#ffa726"
+                stroke: "#c2d1f0"
               }
             }}
             bezier
@@ -196,10 +200,11 @@ const GraphScreen = ({ navigation }) => {
               borderRadius: 5,
             }}
           />
+          <FlashMessage duration={3000} />
         </ScrollView>
       )}
-      {showText && (
-        <Text>Hello</Text>
+      {show && (
+      <Text style={styles.scroll}>*Scroll horizontally to view graph*</Text>
       )}
       <Pressable 
         onPress={onGoBackPress} 
@@ -256,6 +261,9 @@ const styles = StyleSheet.create({
     color: "#003366",
     fontFamily: "Avenir",
   },
+  scroll: {
+    fontFamily: "Avenir",
+  }
 })
 
 
