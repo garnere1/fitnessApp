@@ -18,18 +18,18 @@ const TrendOptionScreen = () => {
   
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>What would you like to do?</Text>
+      <Text style={styles.header}>View your trends:</Text>
       <Pressable 
         onPress={onGraphPress} 
         style={({pressed}) => [
           {
-            backgroundColor: pressed ? '#79d2a6' : '#b3e6cc' ,
+            backgroundColor: pressed ? '#c3c388' : '#ddddbb' ,
           },
           styles.buttonContainer,
         ]}>
         <Text 
           style = {styles.buttonText}>
-          Graph
+          Graph a lift
         </Text>
       </Pressable>
       

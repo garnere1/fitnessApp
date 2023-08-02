@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, PixelRatio, View, Text, Button} from 'react-native';
+import {StyleSheet, PixelRatio, View, Text, Image, useWindowDimensions, Dimensions, Button} from 'react-native';
 import { Auth, API } from 'aws-amplify';
 import * as queries from '../../../graphql/queries';
+import squat from '../../../../assets/images/squat.png';
+import bench from '../../../../assets/images/bench.png';
+import deadlift from '../../../../assets/images/deadlift.png';
 
 var FONT_BACK_LABEL   = 25;
 
@@ -10,11 +13,24 @@ if (PixelRatio.get() <= 2) {
 }
 
 const HomeScreen = () => {
+  
   return (
     <View style={styles.container}>
       <Text style={styles.header}>
-        Welcome to "App name"
+        Welcome to myFitApp
       </Text>
+      <Image
+        style={styles.image}
+        source={squat}
+      />
+      <Image
+        style={styles.image}
+        source={bench}
+      />
+      <Image
+        style={styles.image}
+        source={deadlift}
+      />
     </View>
   );
 };
@@ -35,6 +51,10 @@ const styles = StyleSheet.create({
   },
   number: {
     fontFamily: "Avenir",
+  },
+  image: {
+    width: Dimensions.get("window").width * .5,
+    height: Dimensions.get("window").height * 0.2,
   }
 })
 
