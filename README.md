@@ -14,8 +14,7 @@ Data: AWS GraphQL, AWS S3
 
 ## Screenshots
 
-<img src="https://mybucketforfitapp.s3.us-east-2.amazonaws.com/SignInScreen.png"  width="200" height="400">
-<img src="https://mybucketforfitapp.s3.us-east-2.amazonaws.com/resetPassword.png"  width="200" height="400">
+| <img src="https://mybucketforfitapp.s3.us-east-2.amazonaws.com/SignInScreen.png"  width="200" height="400"> | <img src="https://mybucketforfitapp.s3.us-east-2.amazonaws.com/resetPassword.png"  width="200" height="400"> |
 <img src="https://mybucketforfitapp.s3.us-east-2.amazonaws.com/createAccount.png"  width="200" height="400">
 <img src="https://mybucketforfitapp.s3.us-east-2.amazonaws.com/HomeScreen.png"  width="200" height="400">
 <img src="https://mybucketforfitapp.s3.us-east-2.amazonaws.com/ActionScreen.png"  width="200" height="400">
